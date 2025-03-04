@@ -1,17 +1,19 @@
 import numpy as np
+import re
 
 #this script creates an ulam spiral in the terminal
 
-def get_valid_integer(prompt="Enter the number of rings of the spiral (integer larger than 1) >>:"):
+def get_valid_integer(prompt="Enter the number of rings of the spiral (integer larger than 1)\n[Enter 0 to exit program]\n>>:"):
+
+    str_pattern = r"^\d+$"
+
     while True:
-        try:
-            user_input = int(input(prompt))
-            if user_input > 1:
-                return user_input
-            else:
-                print("input must be greated than 1, please try again")
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
+        user_input = input(prompt)
+        if re.match(str_pattern, user_input):
+            return int(user_input)
+        
+        else:
+            print("Invalid input. Please enter an integer")
 
 
 def generate_ulam_spiral(n):
@@ -78,17 +80,23 @@ def draw_spiral_characters(matrix, prime_list):
     print("\n", end="")
 
 
-rings_number=get_valid_integer()
+while True:
 
-spiral_side=2*rings_number+1
-max_number=spiral_side*spiral_side
+    rings_number=get_valid_integer()
 
-list_of_primes=prime_sieve(max_number)
+    if rings_number == 0:
+        print("Exiting program...")
+        break
 
-test_spiral=generate_ulam_spiral(spiral_side)
+    spiral_side=2*rings_number+1
+    max_number=spiral_side*spiral_side
 
-draw_spiral_characters(test_spiral, list_of_primes)
+    list_of_primes=prime_sieve(max_number)
 
-print("Spiral coded  by Fer :)")
+    test_spiral=generate_ulam_spiral(spiral_side)
+
+    draw_spiral_characters(test_spiral, list_of_primes)
+
+    print("Spiral coded  by Fer :)")
 
 
